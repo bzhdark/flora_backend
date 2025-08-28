@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RucherRequest;
 use App\Models\Rucher;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class RucherController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index()
+    public function index(Request $request)
     {
-        $this->authorize('viewAny', Rucher::class);
-
-        return Rucher::all();
+        $ruchers = $request->user()->currentExploitation->ruchers()->withCount("ruches")->get();
+        return response()->json($ruchers);
     }
 
     public function store(RucherRequest $request)

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Mort;
+use App\Models\Reine;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Ruche;
@@ -42,7 +43,7 @@ class DatabaseSeeder extends Seeder
 
         $ruchers = Rucher::factory(3)->hasRuches(5, [
             'exploitation_id' => $exploitation->id,
-            "type_ruche_id" => TypeRuche::first()->id
+            "type_ruche_id" => TypeRuche::first()->id,
         ])->create(["exploitation_id" => $exploitation->id]);
 
 
@@ -54,6 +55,10 @@ class DatabaseSeeder extends Seeder
         foreach ($ruches as $ruche) {
             Visite::factory()->hasMort()->hasPesee()->create(['ruche_id' => $ruche->id, 'exploitation_id' => $exploitation->id]);
             Visite::factory()->hasNourrissement(["sirop_id" => $sirop->id])->create(['ruche_id' => $ruche->id, 'exploitation_id' => $exploitation->id]);
+
+            $reine = Reine::factory()->create(["exploitation_id" => $exploitation->id]);
+            $ruche->update(["reine_id" => $reine->id]);
+
         }
     }
 }

@@ -6,12 +6,13 @@ use App\Models\Comptage;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ComptagePolicy{
+class ComptagePolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, Comptage $comptage): bool

@@ -6,12 +6,13 @@ use App\Models\Transvasement;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TransvasementPolicy{
+class TransvasementPolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, Transvasement $transvasement): bool

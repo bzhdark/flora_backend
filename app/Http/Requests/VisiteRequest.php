@@ -10,7 +10,6 @@ class VisiteRequest extends FormRequest
     {
         return [
             'date' => ['required'],
-            'commentaires' => ['required'],
             'auteur_id' => ['required', 'exists:users'],
             'nom' => ['required'],
         ];

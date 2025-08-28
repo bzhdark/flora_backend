@@ -6,12 +6,13 @@ use App\Models\NettoyagePlancher;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class NettoyagePlancherPolicy{
+class NettoyagePlancherPolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, NettoyagePlancher $nettoyagePlancher): bool

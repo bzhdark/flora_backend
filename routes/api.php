@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MortController;
-use App\Http\Middleware\CurrentExploitationMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MortController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RucherController;
+use App\Http\Middleware\CurrentExploitationMiddleware;
 
 // Public auth endpoints (no authentication required)
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -15,18 +17,16 @@ Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware('auth
 
 // Protected routes (authentication required)
 Route::prefix('v1')->middleware(['auth:sanctum', CurrentExploitationMiddleware::class])->group(function () {
-    Route::get('/', function () {
-        $morts = \App\Models\Pesee::all();
-        return response()->json($morts);
-    });
+  // User
+  Route::get('/user', [UserController::class, "currentUser"])->withoutMiddleware(CurrentExploitationMiddleware::class);
 
-    Route::resource('morts', MortController::class);
+  // Ruchers
+  Route::resource('ruchers', RucherController::class);
 
-    Route::get('/user', function (Request $request) {
-        $user = $request->user();
-        return response()->json($user);
-    })->withoutMiddleware(CurrentExploitationMiddleware::class);
-
-    // Protected auth endpoints
+  // A supprimer
+  Route::get('/', function () {
+    $morts = \App\Models\Ruche::with("reine")->get();
+    return response()->json($morts, 200);
+  });
+  Route::resource('morts', MortController::class);
 });
-

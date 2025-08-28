@@ -8,18 +8,19 @@ use App\Models\Visite;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class TransvasementFactory extends Factory{
+class TransvasementFactory extends Factory
+{
     protected $model = Transvasement::class;
 
     public function definition(): array
     {
         return [
-            'created_at' => Carbon::now(),//
-'updated_at' => Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
 
-'visite_id' => Visite::factory(),
-'ruche_destination_id' => Ruche::factory(),
-'ruche_origine_id' => Ruche::factory(),
+            'visite_id' => Visite::factory(),
+            'ruche_destination_id' => Ruche::factory(),
+            'ruche_origine_id' => Ruche::factory(),
         ];
     }
 }

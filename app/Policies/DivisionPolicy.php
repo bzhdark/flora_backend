@@ -6,12 +6,13 @@ use App\Models\Division;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DivisionPolicy{
+class DivisionPolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, Division $division): bool

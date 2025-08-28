@@ -4,17 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-$table->foreignId('ruche_id')->nullable();
-$table->foreignId('rucher_id')->nullable();
-$table->string('titre');
-$table->string('contenu');
-$table->timestamps();//
+            $table->foreignId('ruche_id')->nullable()->constrained("ruches")->cascadeOnDelete();
+            $table->foreignId('rucher_id')->nullable()->constrained("ruchers")->cascadeOnDelete();
+            $table->foreignId('exploitation_id')->nullable()->constrained("exploitations")->cascadeOnDelete();
+            $table->string('titre');
+            $table->string('contenu');
+            $table->timestamps();
         });
     }
 

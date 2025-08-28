@@ -9,18 +9,18 @@ return new class extends Migration {
     {
         Schema::create('reines', function (Blueprint $table) {
             $table->id();
-            $table->string('reference');
+            $table->string('reference')->index();
             $table->foreignId('exploitation_id')->constrained('exploitations')->cascadeOnDelete();
             $table->foreignId('souche_id')->nullable()->constrained('souches')->nullOnDelete();
             $table->integer('annee_naissance');
             $table->string('numero_dossard')->nullable();
             $table->boolean('marquee');
-            $table->boolean('morte');
-            $table->boolean('vendue');
-            $table->boolean('donnee');
-            $table->boolean('essaimee');
+            $table->boolean('morte')->default(false);
+            $table->boolean('vendue')->default(false);
+            $table->boolean('donnee')->default(false);
+            $table->boolean('essaimee')->default(false);
             $table->string('generation')->nullable();
-            $table->foreignId("reine_id")->nullable()->constrained("reines")->nullOnDelete();
+            $table->foreignId("mere_id")->nullable()->constrained("reines")->nullOnDelete();
             $table->string('pere')->nullable();
             $table->string('commentaires')->nullable();
 

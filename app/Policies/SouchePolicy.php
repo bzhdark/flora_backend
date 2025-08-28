@@ -6,12 +6,13 @@ use App\Models\Souche;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class SouchePolicy{
+class SouchePolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, Souche $souche): bool

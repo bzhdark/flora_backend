@@ -12,7 +12,6 @@ return new class extends Migration {
         Schema::create('visites', function (Blueprint $table) {
             $table->id();
             $table->string('date');
-            $table->string('commentaires')->nullable();
             $table->foreignIdFor(Exploitation::class)->constrained('exploitations')->cascadeOnDelete();
             $table->foreignId('auteur_id')->constrained('users')->nullOnDelete();
             $table->foreignIdFor(Ruche::class)->constrained('ruches')->cascadeOnDelete();

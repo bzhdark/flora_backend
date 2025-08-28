@@ -2,39 +2,46 @@
 
 namespace App\Models;
 
-    use Illuminate\Database\Eloquent\Factories\HasFactory;
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-    class Reine extends Model {
-        use HasFactory;
+class Reine extends Model
+{
+    use HasFactory;
 
-        protected $fillable = [
-        'reference',
-        'exploitation_id',
-        'annee_naissance',
-        'numero_dossard',
-        'marquee',
-        'type_souche',
-        'mere_id',
-        'pere',
-        'commentaires',
-        ];
+    protected $guarded = ["id"];
+    protected $appends = ["couleur"];
 
-        public function exploitation(): BelongsTo
-        {
-        return $this->belongsTo(Exploitation::class);
-        }
 
-        public function mere(): BelongsTo
-        {
-        return $this->belongsTo(Reine::class, 'mere_id');
-        }
-
-        protected function casts(): array
-        {
+    protected function casts(): array
+    {
         return [
-        'marquee' => 'boolean',
+            'marquee' => 'boolean',
+            'morte' => 'boolean',
+            'vendue' => 'boolean',
+            'donnee' => 'boolean',
+            'essaimee' => 'boolean',
         ];
-        }
     }
+
+    public function getCouleurAttribute(): string
+    {
+        return "blue";
+    }
+
+    public function exploitation(): BelongsTo
+    {
+        return $this->belongsTo(Exploitation::class);
+    }
+
+    public function mere(): BelongsTo
+    {
+        return $this->belongsTo(Reine::class, 'mere_id');
+    }
+
+    public function souche(): BelongsTo
+    {
+        return $this->belongsTo(Souche::class, 'souche_id');
+    }
+}

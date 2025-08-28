@@ -6,12 +6,13 @@ use App\Models\Reunion;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ReunionPolicy{
+class ReunionPolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, Reunion $reunion): bool

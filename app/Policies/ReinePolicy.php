@@ -6,12 +6,13 @@ use App\Models\Reine;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ReinePolicy{
+class ReinePolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, Reine $reine): bool

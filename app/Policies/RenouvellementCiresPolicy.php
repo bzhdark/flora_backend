@@ -6,12 +6,13 @@ use App\Models\RenouvellementCires;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RenouvellementCiresPolicy{
+class RenouvellementCiresPolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, RenouvellementCires $renouvellementCires): bool

@@ -6,12 +6,13 @@ use App\Models\Introduction;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class IntroductionPolicy{
+class IntroductionPolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, Introduction $introduction): bool

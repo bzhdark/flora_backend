@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-    use Illuminate\Database\Eloquent\Factories\HasFactory;
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-    class Comptage extends Model {
-        use HasFactory;
+class Comptage extends Model
+{
+    use HasFactory;
 
-        protected $fillable = [
+    protected $fillable = [
         'visite_id',
         'suit_traitement',
         'type',
@@ -18,22 +19,22 @@ namespace App\Models;
         'poids_abeilles',
         'produits_traitement_id',
         'nb_abeilles',
-        ];
+    ];
 
-        public function visite(): BelongsTo
-        {
+    public function visite(): BelongsTo
+    {
         return $this->belongsTo(Visite::class);
-        }
-
-        public function produitsTraitement(): BelongsTo
-        {
-        return $this->belongsTo(ProduitTraitement::class, 'produits_traitement_id');
-        }
-
-        protected function casts(): array
-        {
-        return [
-        'suit_traitement' => 'boolean',
-        ];
-        }
     }
+
+    public function produitsTraitement(): BelongsTo
+    {
+        return $this->belongsTo(ProduitTraitement::class, 'produits_traitement_id');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'suit_traitement' => 'boolean',
+        ];
+    }
+}

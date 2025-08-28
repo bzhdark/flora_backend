@@ -6,12 +6,13 @@ use App\Models\PoseElement;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PoseElementPolicy{
+class PoseElementPolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, PoseElement $poseElement): bool

@@ -6,12 +6,13 @@ use App\Models\Controle;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ControlePolicy{
+class ControlePolicy
+{
     use HandlesAuthorization;
 
     public function viewAny(User $user): bool
     {
-        //
+
     }
 
     public function view(User $user, Controle $controle): bool

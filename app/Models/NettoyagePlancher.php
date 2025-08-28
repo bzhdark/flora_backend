@@ -2,33 +2,28 @@
 
 namespace App\Models;
 
-    use Illuminate\Database\Eloquent\Factories\HasFactory;
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-    class NettoyagePlancher extends Model {
-        use HasFactory;
+class NettoyagePlancher extends Model
+{
+    use HasFactory;
 
-        protected $table = 'nettoyages_planchers';
+    protected $table = 'nettoyages_planchers';
 
-        protected $fillable = [
-        'visite_id',
-        'niveau_proprete',
-        'presence_mycoses',
-        'presence_rongeurs',
-        'commentaires',
-        ];
+    protected $guarded = ["id"];
 
-        public function visite(): BelongsTo
-        {
+    public function visite(): BelongsTo
+    {
         return $this->belongsTo(Visite::class);
-        }
-
-        protected function casts(): array
-        {
-        return [
-        'presence_mycoses' => 'boolean',
-        'presence_rongeurs' => 'boolean',
-        ];
-        }
     }
+
+    protected function casts(): array
+    {
+        return [
+            'presence_mycoses' => 'boolean',
+            'presence_rongeurs' => 'boolean',
+        ];
+    }
+}

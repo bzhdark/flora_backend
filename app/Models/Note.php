@@ -2,27 +2,23 @@
 
 namespace App\Models;
 
-    use Illuminate\Database\Eloquent\Factories\HasFactory;
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-    class Note extends Model {
-        use HasFactory;
+class Note extends Model
+{
+    use HasFactory;
 
-        protected $fillable = [
-        'ruche_id',
-        'rucher_id',
-        'titre',
-        'contenu',
-        ];
+    protected $guarded = ["id"];
 
-        public function ruche(): BelongsTo
-        {
+    public function ruche(): BelongsTo
+    {
         return $this->belongsTo(Ruche::class);
-        }
-
-        public function rucher(): BelongsTo
-        {
-        return $this->belongsTo(Rucher::class);
-        }
     }
+
+    public function rucher(): BelongsTo
+    {
+        return $this->belongsTo(Rucher::class);
+    }
+}
