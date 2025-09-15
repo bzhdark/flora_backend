@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Mort;
 use App\Models\Reine;
 use App\Models\Role;
 use App\Models\User;
@@ -30,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'stephane.aletru@gmail.com',
             'password' => bcrypt('Secret1234'),
         ]);
-        $exploitation = Exploitation::factory()->hasApiculteurs(2)->hasSirops(2)->create([
+        $exploitation = Exploitation::factory()->hasSirops(2)->create([
             "proprietaire_id" => $superadmin->id,
             "nom" => "Hexatek",
         ]);
@@ -38,7 +37,10 @@ class DatabaseSeeder extends Seeder
 
         $roles = Role::factory(2)->create(["exploitation_id" => $exploitation->id]);
         $role = $roles->first();
-        $superadmin->roles()->attach($role);
+        $superadmin->exploitationRoles()->create([
+            "exploitation_id" => $exploitation->id,
+            "role_id" => $role->id,
+        ]);
 
 
         $ruchers = Rucher::factory(3)->hasRuches(5, [
@@ -58,7 +60,6 @@ class DatabaseSeeder extends Seeder
 
             $reine = Reine::factory()->create(["exploitation_id" => $exploitation->id]);
             $ruche->update(["reine_id" => $reine->id]);
-
         }
     }
 }

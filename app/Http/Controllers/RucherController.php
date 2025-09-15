@@ -13,7 +13,29 @@ class RucherController extends Controller
 
     public function index(Request $request)
     {
-        $ruchers = $request->user()->currentExploitation->ruchers()->withCount("ruches")->get();
+        // $user = $request->user();
+        // $role = $user->currentRole();
+
+        // if ($role->acces_complet_ruchers) {
+        //     $ruchers = $user->currentExploitation->ruchers()->withCount("ruches")->get();
+        // } else {
+        //     $ruchers = $role->ruchers()->wherePivot('peut_lire', '=', true)->withCount("ruches")->get();
+        // }
+        // return response()->json($ruchers);
+        // // $ruchers = $request->user()->currentExploitation->ruchers()->withCount("ruches")->get();
+
+        // if ($user->ownsCurrentExploitation()) {
+        //     $ruchers = $user->currentExploitation->ruchers()->withCount("ruches")->get();
+        // } else {
+        //     $ruchers = $user->currentRole()->ruchers()->wherePivot("peut_lire", "=", true)->withCount("ruches")->get();
+        //     $roles = $user->roles()->with('ruchers')->get();
+        //     $ruchers = $roles->pluck('ruchers')->flatten();
+        // }
+        $role = $request->user()->currentRole();
+        if (!$role) {
+            return response()->json([]);
+        }
+        $ruchers = $role->ruchers()->withCount("ruches")->get();
         return response()->json($ruchers);
     }
 

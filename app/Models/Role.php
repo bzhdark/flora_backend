@@ -31,6 +31,26 @@ class Role extends Model
     return $this->belongsToMany(User::class, 'role_user', 'role_id', 'user_id');
   }
 
+  public function canEditRucher(Rucher $rucher) {
+    if ($this->exploitation_id !== $rucher->exploitation_id) {
+      return false;
+    }
+    if ($this->acces_complet_ruchers) {
+      return true;
+    }
+    return $this->ruchers()->where('rucher_id', $rucher->id)->where('peut_modifier', true)->exists();
+  }
+
+  public function canReadRucher(Rucher $rucher) {
+    if ($this->exploitation_id !== $rucher->exploitation_id) {
+      return false;
+    }
+    if ($this->acces_complet_ruchers) {
+      return true;
+    }
+    return $this->ruchers()->where('rucher_id', $rucher->id)->where('peut_lire', true)->exists();
+  }
+
   protected function casts(): array
   {
     return [

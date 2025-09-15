@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Exploitation;
+use App\Models\Role;
 use App\Models\Ruche;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,7 +23,9 @@ beforeEach(function () {
         "nom" => "Hexatek",
     ]);
 
-    $this->user->exploitations()->attach($this->exploitation->id);
+    $this->role = Role::factory()->create(["exploitation_id" => $this->exploitation->id]);
+
+    $this->user->associerExploitation($this->exploitation, $this->role);
 
     // Set current exploitation
     $this->user->update(["current_exploitation_id" => $this->exploitation->id]);
@@ -55,7 +58,8 @@ test("Un utilisateur non premium, qui a plus de 1 exploitation est bloqué", fun
         "proprietaire_id" => $this->user->id,
         "nom" => "Hexatek bis",
     ]);
-    $this->user->exploitations()->attach($exploitation2->id);
+    $role = Role::factory()->create(["exploitation_id" => $exploitation2->id]);
+    $this->user->associerExploitation($exploitation2, $role);
 
     expect($this->user->isBlocked())->toBeTrue();
 });

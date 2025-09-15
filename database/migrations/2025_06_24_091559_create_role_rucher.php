@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('role_rucher', function (Blueprint $table) {
             $table->foreignId('role_id')->constrained('roles')->cascadeOnDelete();
             $table->foreignId('rucher_id')->constrained('ruchers')->cascadeOnDelete();
-            $table->boolean('peut_modifier');
-            $table->boolean('peut_lire');
+            $table->boolean('peut_modifier')->index();
+            $table->boolean('peut_lire')->index();
         });
     }
 

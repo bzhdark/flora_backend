@@ -10,6 +10,8 @@ return new class extends Migration {
     Schema::create('roles', function (Blueprint $table) {
       $table->id();
       $table->string('nom');
+      $table->boolean('is_proprietaire')->default(false);
+      $table->boolean('acces_complet_ruchers')->default(true);
       $table->foreignId('exploitation_id')->constrained('exploitations')->cascadeOnDelete();
       $table->boolean('peut_creer_ruches');
       $table->boolean('peut_creer_ruchers');

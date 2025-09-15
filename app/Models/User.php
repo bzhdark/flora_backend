@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,14 +52,30 @@ class User extends Authenticatable
         ];
     }
 
-    public function exploitations(): BelongsToMany
+    // public function exploitations(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Exploitation::class, 'exploitation_user', 'user_id', 'exploitation_id');
+    // }
+
+    public function exploitations()
     {
-        return $this->belongsToMany(Exploitation::class, 'exploitation_user', 'user_id', 'exploitation_id');
+        return $this->belongsToMany(Exploitation::class, 'exploitation_user_role')
+            ->withPivot('role_id', 'joined_at', 'left_at', 'is_active');
     }
 
-    public function ownedExploitations(): BelongsToMany
+    public function ownedExploitations()
     {
-        return $this->belongsToMany(Exploitation::class, 'exploitation_user', 'user_id', 'exploitation_id')->where('proprietaire_id', $this->id);
+        return $this->hasMany(Exploitation::class, 'proprietaire_id');
+    }
+
+    // public function ownedExploitations(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Exploitation::class, 'exploitation_user', 'user_id', 'exploitation_id')->where('proprietaire_id', $this->id);
+    // }
+
+    public function exploitationRoles(): HasMany
+    {
+        return $this->hasMany(ExploitationUserRole::class);
     }
 
 
@@ -67,10 +84,23 @@ class User extends Authenticatable
         return $this->belongsTo(Exploitation::class, 'current_exploitation_id');
     }
 
-    public function roles(): BelongsToMany
+    public function currentRole(): ?Role
     {
-        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+        if (!$this->current_exploitation_id) {
+            return null;
+        }
+        // return $this->roles()->whereExploitationId("$this->current_exploitation_id")->first();
+        return $this->exploitationRoles()
+            ->where('exploitation_id', $this->current_exploitation_id)
+            ->with('role')
+            ->first()?->role;
     }
+
+    // public function roles(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    // }
+
 
     public function ownsCurrentExploitation(): bool
     {
@@ -83,40 +113,23 @@ class User extends Authenticatable
 
     public function canEditRucher(Rucher $rucher): bool
     {
-        $exploitation = $rucher->exploitation;
-        // L'apiculteur est il le propriétaire de l'exploitation ?
-        if ($exploitation->proprietaire_id === $this->id) {
-            return true;
-        }
-
-        // L'apiculteur fait-il partie de l'exploitation ?
-        $exploitationsIds = $this->exploitations->pluck('id');
-        if (!$exploitationsIds->contains($exploitation->id)) {
+        if ($this->isBlocked()) {
             return false;
         }
-
-        // Le rucher est-il en accès libre ?
-        if ($rucher->acces_complet) {
-            return true;
+        $role = $this->currentRole();
+        if (!$role) {
+            return false;
         }
-
-        // L'apiculteur a-t-il un rôle qui permet de modifier le rucher ?
-        return $this->roles()
-            ->whereHas('ruchers', function ($query) use ($rucher) {
-                $query->where('rucher_id', $rucher->id)
-                    ->where('peut_modifier', true);
-            })
-            ->exists();
+        return $role->canEditRucher($rucher);
     }
 
     public function canViewRucher(Rucher $rucher): bool
     {
-        return $this->roles()
-            ->whereHas('ruchers', function ($query) use ($rucher) {
-                $query->where('rucher_id', $rucher->id)
-                    ->where('peut_lire', true);
-            })
-            ->exists();
+        $role = $this->currentRole();
+        if (!$role) {
+            return false;
+        }
+        return $role->canEditRucher($rucher);
     }
 
     public function isPremium(): bool
@@ -142,5 +155,21 @@ class User extends Authenticatable
         }
         // Sinon
         return false;
+    }
+
+    public function associerExploitation(Exploitation $exploitation, Role $role)
+    {
+        if ($role->exploitation_id !== $exploitation->id) {
+            abort(403, "Ce role n'appartient pas à la bonne exploitation");
+        }
+        $this->exploitationRoles()->updateOrCreate([
+            "exploitation_id" => $exploitation->id,
+            "role_id" => $role->id
+        ]);
+    }
+
+    public function ruchers()
+    {
+        return $this->currentRole()->ruchers()->get();
     }
 }

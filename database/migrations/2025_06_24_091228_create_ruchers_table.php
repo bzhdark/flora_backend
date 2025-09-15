@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('code_postal')->nullable();
             $table->string('ville')->nullable();
             $table->string('pays')->nullable();
-            $table->boolean('acces_complet')->default(true);
             $table->timestamps();
         });
     }
