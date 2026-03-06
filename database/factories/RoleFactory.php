@@ -22,6 +22,7 @@ class RoleFactory extends Factory
             'peut_inviter_apiculteurs' => $this->faker->boolean(),
             'peut_modifier_exploitation' => $this->faker->boolean(),
             'peut_exporter_documents' => $this->faker->boolean(),
+            'peut_gerer_roles' => $this->faker->boolean(),
             'acces_complet_ruchers' => true,
             'is_proprietaire' => false,
             'created_at' => Carbon::now(),

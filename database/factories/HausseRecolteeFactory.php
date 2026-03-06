@@ -17,6 +17,7 @@ class HausseRecolteeFactory extends Factory
     {
         return [
             'qte_miel_recolte' => $this->faker->randomNumber(),
+            'taux_remplissage' => fake()->numberBetween(5, 100),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

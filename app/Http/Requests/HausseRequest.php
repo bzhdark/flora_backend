@@ -9,9 +9,9 @@ class HausseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reference' => ['required'],
-            'qr_code' => ['required'],
-            'ruche_id' => ['nullable', 'exists:ruches'],
+            'reference' => ['required', 'string', 'max:255', "min:1"],
+            'taux_remplissage' => ['required', 'integer', 'min:0', 'max:100'],
+            'ruche_id' => ['nullable', "integer", 'exists:ruches,id'],
         ];
     }
 

@@ -9,12 +9,13 @@ return new class extends Migration {
     {
         Schema::create('hausses_recoltees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recoltes_miel_id')->constrained('recoltes_miel');
+            $table->foreignId('recoltes_miel_id')->constrained('recoltes_miel')->cascadeOnDelete();
             $table->foreignId('hausse_id')->constrained('hausses')->cascadeOnDelete();
             $table->foreignId('ruche_id')->constrained('ruches')->cascadeOnDelete();
             $table->foreignId('extraction_id')->nullable()->constrained('extractions')->nullOnDelete();
             $table->foreignId('exploitation_id')->constrained('exploitations')->cascadeOnDelete();
             $table->integer('qte_miel_recolte');
+            $table->integer('taux_remplissage');
             $table->timestamps();
         });
     }

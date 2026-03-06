@@ -15,7 +15,7 @@ class HausseFactory extends Factory
     {
         return [
             'reference' => $this->faker->word(),
-            'qr_code' => $this->faker->word(),
+            'taux_remplissage' => 0,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

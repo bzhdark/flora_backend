@@ -6,8 +6,6 @@ use App\Models\Ruche;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-uses(RefreshDatabase::class);
-
 beforeEach(function () {
     // Create user
     $this->user = User::factory()->create([

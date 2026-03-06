@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Exploitation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,6 +12,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nom');
             $table->integer('nb_cadres');
+            $table->foreignIdFor(Exploitation::class)->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

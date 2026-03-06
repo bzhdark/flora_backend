@@ -11,7 +11,6 @@ class TypeRucheRequest extends FormRequest
         return [
             'nom' => ['required', 'string', "min:1"],
             'nb_cadres' => ['required', 'integer'],
-            'exploitation_id' => ['required', 'exists:exploitations'],
         ];
     }
 

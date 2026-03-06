@@ -14,7 +14,7 @@ class SiropFactory extends Factory
     {
         return [
             'nom' => fake()->word(),
-            'pourcentage_sucre' => fake()->randomNumber(),
+            'pourcentage_sucre' => fake()->numberBetween(10, 85),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

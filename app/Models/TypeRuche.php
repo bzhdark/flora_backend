@@ -9,13 +9,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TypeRuche extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $table = 'types_ruches';
-    protected $guarded = ["id"];
+  protected $table = 'types_ruches';
+  protected $guarded = ["id"];
 
-    public function ruches(): HasMany
-    {
-        return $this->hasMany(Ruche::class);
-    }
+  public function ruches(): HasMany
+  {
+    return $this->hasMany(Ruche::class);
+  }
+
+  public function exploitation(): BelongsTo
+  {
+    return $this->belongsTo(Exploitation::class);
+  }
 }

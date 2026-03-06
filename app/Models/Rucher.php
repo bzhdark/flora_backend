@@ -14,6 +14,11 @@ class Rucher extends Model
 
     protected $guarded = ["id"];
 
+    protected $casts = [
+        "latitude" => "float",
+        "longitude" => "float",
+    ];
+
     public function exploitation(): BelongsTo
     {
         return $this->belongsTo(Exploitation::class);
@@ -32,7 +37,7 @@ class Rucher extends Model
 
     public function ruches(): HasMany
     {
-        return $this->hasMany(Ruche::class);
+        return $this->hasMany(Ruche::class)->orderBy('reference');
     }
 
     public function todos(): HasMany

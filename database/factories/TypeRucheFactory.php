@@ -16,6 +16,7 @@ class TypeRucheFactory extends Factory
         return [
             'nom' => $this->faker->word(),
             'nb_cadres' => fake()->numberBetween(6, 12),
+            'exploitation_id' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

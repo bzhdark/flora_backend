@@ -9,7 +9,7 @@ class MielleeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => ['required'],
+            'nom' => ['required', "min:1", "max:99"],
         ];
     }
 

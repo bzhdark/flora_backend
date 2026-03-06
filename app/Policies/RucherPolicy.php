@@ -8,50 +8,31 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RucherPolicy
 {
-    use HandlesAuthorization;
+  use HandlesAuthorization;
 
-    public function viewAny(User $user): bool
-    {
-    }
+  public function viewAny(User $user): bool {}
 
-    public function view(User $user, Rucher $rucher): bool
-    {
-    }
+  public function view(User $user, Rucher $rucher): bool
+  {
+    return $user->canViewRucher($rucher);
+  }
 
-    public function create(User $user): bool
-    {
+  public function create(User $user): bool
+  {
+    return $user->currentRole()->peut_creer_ruchers;
+  }
 
-    }
+  public function update(User $user, Rucher $rucher): bool
+  {
+    return $user->canEditRucher($rucher);
+  }
 
-    public function update(User $user, Rucher $rucher): bool
-    {
-        // L'apiculteur doit faire partie de l'exploitation du rucher
-        if ($user->current_exploitation_id !== $rucher->exploitation_id) {
-            return false;
-        }
-        // Si superadmin, autoriser direct
-        if ($user->ownsCurrentExploitation()) {
-            return true;
-        }
+  public function delete(User $user, Rucher $rucher): bool
+  {
+    return  $user->currentRole()->peut_creer_ruchers;
+  }
 
-        // L'apiculteur doit etre autorisé à intervenir sur le rucher
-        $roles = $user->roles()->with('ruchers')->get();
-        $ruchers_id = $roles->pluck('ruchers')->flatten()->pluck('id');
-        if ($ruchers_id->contains($rucher->id)) {
-            return true;
-        }
-        return false;
-    }
+  public function restore(User $user, Rucher $rucher): bool {}
 
-    public function delete(User $user, Rucher $rucher): bool
-    {
-    }
-
-    public function restore(User $user, Rucher $rucher): bool
-    {
-    }
-
-    public function forceDelete(User $user, Rucher $rucher): bool
-    {
-    }
+  public function forceDelete(User $user, Rucher $rucher): bool {}
 }

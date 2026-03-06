@@ -10,9 +10,9 @@ return new class extends Migration {
         Schema::create('hausses', function (Blueprint $table) {
             $table->id();
             $table->string('reference');
-            $table->string('qr_code');
+            $table->integer('taux_remplissage');
             $table->foreignId('ruche_id')->nullable()->constrained('ruches')->nullOnDelete();
-            $table->foreignId('exploitation_id')->nullable()->constrained('exploitations')->cascadeOnDelete();
+            $table->foreignId('exploitation_id')->constrained('exploitations')->cascadeOnDelete();
             $table->timestamps();
         });
     }

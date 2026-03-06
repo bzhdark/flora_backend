@@ -6,24 +6,23 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RucherRequest extends FormRequest
 {
-    public function rules(): array
-    {
-        return [
-            'nom' => ['required'],
-            'exploitation_id' => ['required', 'exists:exploitations'],
-            'latitude' => ['nullable', 'numeric'],
-            'longitude' => ['nullable', 'numeric'],
-            'environnement' => ['nullable'],
-            'adresse1' => ['nullable'],
-            'adresse2' => ['nullable'],
-            'code_postal' => ['nullable'],
-            'ville' => ['nullable'],
-            'pays' => ['nullable'],
-        ];
-    }
+  public function rules(): array
+  {
+    return [
+      'nom' => ['required', 'string'],
+      'latitude' => ['nullable', 'numeric'],
+      'longitude' => ['nullable', 'numeric'],
+      'environnement' => ['nullable', 'string'],
+      'adresse1' => ['nullable', 'string'],
+      'adresse2' => ['nullable', 'string'],
+      'code_postal' => ['nullable', 'string'],
+      'ville' => ['nullable', 'string'],
+      'pays' => ['nullable', 'string'],
+    ];
+  }
 
-    public function authorize(): bool
-    {
-        return true;
-    }
+  public function authorize(): bool
+  {
+    return true;
+  }
 }

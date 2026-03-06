@@ -6,31 +6,21 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function currentUser(Request $request)
-    {
-        $user = $request->user()->with('currentExploitation');
-        return response()->json($user);
-    }
+  public function currentUser()
+  {
+    info("Fetching current user");
+    $user = request()->user()->load('currentExploitation');
+    $currentRole = $user->currentRole();
+    return response()->json([...$user->toArray(), "role" => $currentRole]);
+  }
 
-    public function index()
-    {
+  public function index() {}
 
-    }
+  public function store(Request $request) {}
 
-    public function store(Request $request)
-    {
-    }
+  public function show($id) {}
 
-    public function show($id)
-    {
+  public function update(Request $request, $id) {}
 
-    }
-
-    public function update(Request $request, $id)
-    {
-    }
-
-    public function destroy($id)
-    {
-    }
+  public function destroy($id) {}
 }

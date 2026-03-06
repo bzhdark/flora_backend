@@ -9,8 +9,8 @@ class SiropRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => ['required'],
-            'pourcentage_sucre' => ['required', 'integer'],
+            'nom' => ['required', "min:1"],
+            'pourcentage_sucre' => ['required', 'numeric', 'min:1', 'max:100'],
         ];
     }
 

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Auth\RegisterUser;
-use App\DTOs\RegisterDto;
+use App\Models\Role;
 use App\Models\User;
+use App\DTOs\RegisterDto;
+use App\Models\Exploitation;
 use Illuminate\Http\Request;
+use App\Actions\Auth\RegisterUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -51,12 +53,10 @@ class AuthController extends Controller
      */
     public function register(RegisterDto $dto, RegisterUser $registerUser)
     {
-
+        // Créer user et son exploitation
         $user = $registerUser->execute($dto);
-
         // Créer le token
         $token = $user->createToken($dto->device_name)->plainTextToken;
-
         return response()->json([
             'token' => $token,
             'user' => $user
