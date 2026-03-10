@@ -51,4 +51,7 @@ Route::prefix('v1')->middleware(['auth:sanctum', CurrentExploitationMiddleware::
     Route::get('/user', [UserController::class, "currentUser"])->withoutMiddleware(
         CurrentExploitationMiddleware::class
     )->name('user');
+    Route::delete('/user', [UserController::class, "destroy"])->withoutMiddleware(
+        CurrentExploitationMiddleware::class
+    )->name('user.destroy');
 });

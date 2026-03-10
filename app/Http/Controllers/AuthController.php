@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\DTOs\RegisterDto;
 use App\Models\Exploitation;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Actions\Auth\RegisterUser;
 use Illuminate\Support\Facades\Hash;
@@ -40,6 +41,7 @@ class AuthController extends Controller
     /**
      * Supprime le token en cours de l'utilisateur
      * @param Request $request
+     * @return JsonResponse
      */
     public function logout(Request $request)
     {

@@ -25,7 +25,8 @@ class RoleController extends Controller
         $role = Role::create([...$request->validated(), "exploitation_id" => $exploitationId]);
         if (!$request->input('acces_complet_ruchers')) {
             foreach ($request->input('ruchers') as $rucher) {
-                $role->ruchers()->attach($rucher["rucher_id"],
+                $role->ruchers()->attach(
+                    $rucher["rucher_id"],
                     ["peut_modifier" => $rucher["peut_modifier"], "peut_lire" => $rucher["peut_lire"]]
                 );
             }
@@ -49,7 +50,8 @@ class RoleController extends Controller
         $role->ruchers()->detach();
         if (!$request->input('acces_complet_ruchers')) {
             foreach ($request->input('ruchers') as $rucher) {
-                $role->ruchers()->attach($rucher["rucher_id"],
+                $role->ruchers()->attach(
+                    $rucher["rucher_id"],
                     ["peut_modifier" => $rucher["peut_modifier"], "peut_lire" => $rucher["peut_lire"]]
                 );
             }

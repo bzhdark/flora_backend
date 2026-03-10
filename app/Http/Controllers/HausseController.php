@@ -80,19 +80,31 @@ class HausseController extends Controller
         $haussesACreer = [];
         $exploitationId = $request->user()->current_exploitation_id;
 
+        $hausses = Hausse::query()->where('exploitation_id', $exploitationId)->get();
+
+        $haussesIgnorees = collect();
+
         for ($i = 0; $i < $validated['nb_a_creer']; $i++) {
-            $haussesACreer[] = [
-                'reference' => $prefix.$numeroDepart + $i.$suffix,
-                'taux_remplissage' => 0,
-                'ruche_id' => null,
-                'exploitation_id' => $exploitationId,
-            ];
+            $numero = $numeroDepart + $i;
+            $reference = $prefix.$numero.$suffix;
+            $hausseExisteDeja = $hausses->where('reference', $reference)->first();
+            if (! $hausseExisteDeja) {
+                $haussesACreer[] = [
+                    'reference' => $reference,
+                    'taux_remplissage' => 0,
+                    'ruche_id' => null,
+                    'exploitation_id' => $exploitationId,
+                ];
+            } else {
+                $haussesIgnorees->push($hausseExisteDeja);
+            }
         }
         Hausse::insert($haussesACreer);
 
         return response()->json([
             'success' => true,
             'message' => 'Hausses créées avec succès',
+            'haussesIgnorees' => $haussesIgnorees->count(),
         ]);
     }
 }
